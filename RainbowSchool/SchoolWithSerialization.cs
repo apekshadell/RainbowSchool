@@ -8,10 +8,10 @@ using System.Runtime.Serialization.Formatters.Binary;
 namespace RainbowSchool
 {
 
- [Serializable]
-   public class Teacher
+    [Serializable]
+    public class Teacher
     {
-       public int Id { get; set; }
+        public int Id { get; set; }
         string Name { get; set; }
         int Class { get; set; }
         char Section { get; set; }
@@ -29,7 +29,7 @@ namespace RainbowSchool
         }
         public void output()
         {
-            Console.WriteLine("Teacher's ID : {0}",Id);
+            Console.WriteLine("Teacher's ID : {0}", Id);
             Console.WriteLine("Teacher's Name : {0}", Name);
             Console.WriteLine("Teacher's Class : {0}", Class);
             Console.WriteLine("Teacher's Section : {0}", Section);
@@ -41,7 +41,7 @@ namespace RainbowSchool
         Stream stream;
         public void openFile(string fileName, string mode)
         {
-          if (mode == "write")
+            if (mode == "write")
             {
                 if (!File.Exists(fileName))
                 {
@@ -80,17 +80,17 @@ namespace RainbowSchool
             stream.Close();
         }
         public void Write(Teacher teacher)
-            {
-                IFormatter formatter = new BinaryFormatter();
-                formatter.Serialize(stream, teacher);
-                Console.WriteLine("Object Written To file");
+        {
+            IFormatter formatter = new BinaryFormatter();
+            formatter.Serialize(stream, teacher);
+            Console.WriteLine("Object Written To file");
         }
 
         public void Read()
         {
             Teacher T = null;
             IFormatter formatter = new BinaryFormatter();
-            while(stream.Length> stream.Position)
+            while (stream.Length > stream.Position)
             {
                 T = (Teacher)formatter.Deserialize(stream);
                 T.output();
@@ -107,7 +107,7 @@ namespace RainbowSchool
                 T = (Teacher)formatter.Deserialize(stream);
                 if (T.Id == id)
                     return T;
-            } 
+            }
             return null;
         }
         public void Modify(int id)
@@ -121,17 +121,17 @@ namespace RainbowSchool
                 if (T.Id == id)
                 {
                     T.input();
-                    stream.Seek(pos,0);
+                    stream.Seek(pos, 0);
                     Write(T);
                     break;
                 }
             }
         }
     }
-        class School
+    class School
+    {
+        static void Main(string[] args)
         {
-            static void Main(string[] args)
-            {
             char ans = 'y';
             int choice;
             Teacher teacher = new Teacher();
@@ -146,7 +146,7 @@ namespace RainbowSchool
                 Console.WriteLine("4. Read All");
                 Console.WriteLine("Enter your choice");
                 choice = int.Parse(Console.ReadLine());
-                switch(choice)
+                switch (choice)
                 {
                     case 1:
                         file.openFile("C:\\FSD\\new.txt", "write");
@@ -158,7 +158,7 @@ namespace RainbowSchool
                         Console.WriteLine("Enter Teacher Id to search");
                         int id = int.Parse(Console.ReadLine());
                         file.openFile("C:\\FSD\\new.txt", "read");
-                       Teacher T= file.Search(id);
+                        Teacher T = file.Search(id);
                         if (T == null)
                             Console.WriteLine("ID not found");
                         else
@@ -167,25 +167,27 @@ namespace RainbowSchool
                         break;
                     case 3:
                         Console.WriteLine("Enter Teacher Id to search");
-                         id = int.Parse(Console.ReadLine());
+                        id = int.Parse(Console.ReadLine());
                         file.openFile("C:\\FSD\\new.txt", "modify");
-                       // teacher.input();
+                        // teacher.input();
                         file.Modify(id);
                         file.CloseFile();
 
                         break;
-                    case 4: file.openFile("C:\\FSD\\new.txt", "read");
+                    case 4:
+                        file.openFile("C:\\FSD\\new.txt", "read");
                         file.Read();
                         file.CloseFile();
                         break;
-                    default: Console.WriteLine("Wrong Choice");
-                             break;
+                    default:
+                        Console.WriteLine("Wrong Choice");
+                        break;
                 }
                 Console.WriteLine("Do you Want to continue(y/n)");
                 ans = char.Parse(Console.ReadLine());
 
-            } while (ans=='y');
+            } while (ans == 'y');
 
-            }
         }
     }
+}
